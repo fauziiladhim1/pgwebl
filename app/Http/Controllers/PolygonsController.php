@@ -34,18 +34,20 @@ class PolygonsController extends Controller
     {
 
         // validate data
-        $request->validate([
-            'name' => 'required|unique:polygons,name',
-            'description' => 'required',
-            'geom_polygon' => 'required',
-            'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:5120'
-        ],
-        [
-            'name.required' => 'Name is required',
-            'name.unique' => 'Name already exists',
-            'description.required' => 'Description is required',
-            'geom_polygon.required' => 'Geometry is required',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|unique:polygons,name',
+                'description' => 'required',
+                'geom_polygon' => 'required',
+                'image' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ],
+            [
+                'name.required' => 'Name is required',
+                'name.unique' => 'Name already exists',
+                'description.required' => 'Description is required',
+                'geom_polygon.required' => 'Geometry is required',
+            ]
+        );
 
         if (!is_dir('storage/images')) {
             mkdir('./storage/images', 0777);
@@ -104,6 +106,19 @@ class PolygonsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $imagefile = $this->polygons->find($id)->image;
+
+        if (!$this->polygons->destroy($id)) {
+            return redirect()->route('map')->with('error', 'Polygon failed to delete!');
+        }
+
+        // Delete image file
+        if ($imagefile != null) {
+            if (file_exists('./storage/images/' . $imagefile)) {
+                unlink('./storage/images/' . $imagefile);
+            }
+        }
+
+        return redirect()->route('map')->with('success', 'Polygon has been deleted!');
     }
 }

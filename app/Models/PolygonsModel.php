@@ -42,8 +42,6 @@ class PolygonsModel extends Model
             ];
 
             array_push($geojson['features'], $feature);
-
-
         }
         return $geojson;
     }

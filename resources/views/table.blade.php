@@ -1,4 +1,4 @@
-@extends('layouts/template')
+@extends('layout.template')
 
 @section('content')
     <div class="container mt">
@@ -14,20 +14,20 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>Muklis</td>
-                    <td>666</td>
+                    <td>Fauzil</td>
+                    <td>1234567890</td>
                     <td>A</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>Nopal</td>
-                    <td>6969</td>
+                    <td>Fauzil</td>
+                    <td>1234567890</td>
                     <td>B</td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>Yusaf</td>
-                    <td>911</td>
+                    <td>Fauzil</td>
+                    <td>1234567890</td>
                     <td>A</td>
                 </tr>
             </tbody>
