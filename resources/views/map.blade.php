@@ -164,7 +164,7 @@
     <script>
         var map = L.map('map').setView([-7.259264902509092, 112.75078785140347], 12);
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        var baseMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
@@ -229,6 +229,9 @@
                 var routedelete = "{{ route('points.destroy', ':id') }}";
                 routedelete = routedelete.replace(':id', feature.properties.id);
 
+                var routeedit = "{{ route('points.edit', ':id') }}";
+                routeedit = routeedit.replace(':id', feature.properties.id);
+
                 var popupContent =
                     "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
@@ -236,16 +239,23 @@
                     "Dibuat: " + feature.properties.created_at + "<br>" +
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
                     "' width='200' alt=''>" + "<br>" +
+                    "<div class='row mt-4'>" +
+                    "<div class='col-6'>" +
+                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
+                    "</div>" +
+                    "<div class='col-6'>" +
                     "<form method='POST' action='" + routedelete + "'>" +
                     '@csrf' + '@method('DELETE')' +
-                    "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm( `Are you sure you want to delete this Point?` )'><i class='fa-solid fa-trash-can'></i> Hapus</button>" +
-                    "</form>";
+                    "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm( `Are you sure you want to delete this Point?` )'><i class='fa-solid fa-trash-can'></i> Delete</button>" +
+                    "</form>" +
+                    "</div>" +
+                    "</div>";
                 layer.on({
                     click: function(e) {
                         point.bindPopup(popupContent);
                     },
                     mouseover: function(e) {
-                        point.bindTooltip(feature.properties.kab_kota);
+                        point.bindTooltip(feature.properties.name).openTooltip();
                     },
                 });
             },
@@ -261,6 +271,9 @@
                 var routedelete = "{{ route('polylines.destroy', ':id') }}";
                 routedelete = routedelete.replace(':id', feature.properties.id);
 
+                var routeedit = "{{ route('polylines.edit', ':id') }}";
+                routeedit = routeedit.replace(':id', feature.properties.id);
+
                 var popupContent =
                     "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
@@ -269,16 +282,23 @@
                     "Panjang: " + feature.properties.length_km.toFixed(2) + "km<br> " +
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
                     "' width='200' alt=''>" +
+                    "<div class='row mt-4'>" +
+                    "<div class='col-6'>" +
+                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
+                    "</div>" +
+                    "<div class='col-6'>" +
                     "<form method='POST' action='" + routedelete + "'>" +
                     '@csrf' + '@method('DELETE')' +
-                    "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm(`Are you sure you want to delete this Polyline?` )'><i class='fa-solid fa-trash-can'></i> Hapus</button>" +
-                    "</form>";
+                    "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm( `Are you sure you want to delete this Polyline?` )'><i class='fa-solid fa-trash-can'></i> Delete</button>" +
+                    "</form>" +
+                    "</div>" +
+                    "</div>";
                 layer.on({
                     click: function(e) {
                         polyline.bindPopup(popupContent);
                     },
                     mouseover: function(e) {
-                        polyline.bindTooltip(feature.properties.kab_kota);
+                        polyline.bindTooltip(feature.properties.name).openTooltip();
                     },
                 });
             },
@@ -294,6 +314,9 @@
                 var routedelete = "{{ route('polygons.destroy', ':id') }}";
                 routedelete = routedelete.replace(':id', feature.properties.id);
 
+                var routeedit = "{{ route('polygons.edit', ':id') }}";
+                routeedit = routeedit.replace(':id', feature.properties.id);
+
                 var popupContent =
                     "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
@@ -301,23 +324,57 @@
                     "Luas (km2): " + Number(feature.properties.luas_km2).toFixed(2) + "<br>" +
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
                     "' width='200' alt=''>" +
+                    "<div class='row mt-4'>" +
+                    "<div class='col-6'>" +
+                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
+                    "</div>" +
+                    "<div class='col-6'>" +
                     "<form method='POST' action='" + routedelete + "'>" +
                     '@csrf' + '@method('DELETE')' +
-                    "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm(`Are you sure you want to delete this Polygon?` )'><i class='fa-solid fa-trash-can'></i> Hapus</button>" +
-                    "</form>";
+                    "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm( `Are you sure you want to delete this Polygon?` )'><i class='fa-solid fa-trash-can'></i> Delete</button>" +
+                    "</form>" +
+                    "</div>" +
+                    "</div>";
                 layer.on({
                     click: function(e) {
                         polygon.bindPopup(popupContent);
                     },
                     mouseover: function(e) {
-                        polygon.bindTooltip(feature.properties.kab_kota);
+                        polygon.bindTooltip(feature.properties.name).openTooltip();
                     },
                 });
             },
         });
+        $.getJSON("{{ route('api.points') }}", function(data) {
+            point.addData(data);
+        });
+
+        $.getJSON("{{ route('api.polylines') }}", function(data) {
+            polyline.addData(data);
+        });
+
         $.getJSON("{{ route('api.polygons') }}", function(data) {
             polygon.addData(data);
-            map.addLayer(polygon);
         });
+
+        // Create layer control
+        var baseMaps = {
+            "OpenStreetMap": baseMap
+        };
+
+        var overlayMaps = {
+            "Points": point,
+            "Polylines": polyline,
+            "Polygons": polygon
+        };
+
+        L.control.layers(baseMaps, overlayMaps, {
+            position: 'topright'
+        }).addTo(map);
+
+        // Add all layers to the map
+        map.addLayer(point);
+        map.addLayer(polyline);
+        map.addLayer(polygon);
     </script>
 @endsection
