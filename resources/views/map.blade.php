@@ -162,7 +162,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script>
-        var map = L.map('map').setView([-7.259264902509092, 112.75078785140347], 12);
+        var map = L.map('map').setView([-7.259264902509092, 112.75078785140347], 15);
 
         var baseMap = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -241,7 +241,8 @@
                     "' width='200' alt=''>" + "<br>" +
                     "<div class='row mt-4'>" +
                     "<div class='col-6'>" +
-                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
+                    "<a href='" + routeedit +
+                    "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
                     "</div>" +
                     "<div class='col-6'>" +
                     "<form method='POST' action='" + routedelete + "'>" +
@@ -249,7 +250,7 @@
                     "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm( `Are you sure you want to delete this Point?` )'><i class='fa-solid fa-trash-can'></i> Delete</button>" +
                     "</form>" +
                     "</div>" +
-                    "</div>";
+                    "</div>" + "<br>" + "<p>Dibuat Oleh: " + feature.properties.user_created + "</p>";
                 layer.on({
                     click: function(e) {
                         point.bindPopup(popupContent);
@@ -284,7 +285,8 @@
                     "' width='200' alt=''>" +
                     "<div class='row mt-4'>" +
                     "<div class='col-6'>" +
-                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
+                    "<a href='" + routeedit +
+                    "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
                     "</div>" +
                     "<div class='col-6'>" +
                     "<form method='POST' action='" + routedelete + "'>" +
@@ -292,7 +294,7 @@
                     "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm( `Are you sure you want to delete this Polyline?` )'><i class='fa-solid fa-trash-can'></i> Delete</button>" +
                     "</form>" +
                     "</div>" +
-                    "</div>";
+                    "</div>" + "<br>" + "<p>Dibuat Oleh: " + feature.properties.user_created + "</p>";
                 layer.on({
                     click: function(e) {
                         polyline.bindPopup(popupContent);
@@ -326,7 +328,8 @@
                     "' width='200' alt=''>" +
                     "<div class='row mt-4'>" +
                     "<div class='col-6'>" +
-                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
+                    "<a href='" + routeedit +
+                    "' class='btn btn-warning btn-sm'><i class='fa-regular fa-pen-to-square'></i> Edit</a>" +
                     "</div>" +
                     "<div class='col-6'>" +
                     "<form method='POST' action='" + routedelete + "'>" +
@@ -334,7 +337,7 @@
                     "<button class='btn btn-danger btn-sm' type='submit' onclick='return confirm( `Are you sure you want to delete this Polygon?` )'><i class='fa-solid fa-trash-can'></i> Delete</button>" +
                     "</form>" +
                     "</div>" +
-                    "</div>";
+                    "</div>" + "<br>" + "<p>Dibuat Oleh: " + feature.properties.user_created + "</p>";
                 layer.on({
                     click: function(e) {
                         polygon.bindPopup(popupContent);
